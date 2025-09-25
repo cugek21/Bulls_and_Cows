@@ -65,5 +65,4 @@ Cows_and_Bulls/
 
 ## Author
 
-Radek Jíša  
-radek.jisa@gmail.com
+Radek Jíša
