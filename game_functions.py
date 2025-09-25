@@ -1,7 +1,8 @@
-"""Bulls and Cows Game - Functions Module
+"""
+Bulls and Cows Game - Functions Module
 
-This module contains all the core functionality for the Bulls and Cows game.
-It provides functions for game logic, user interaction, and score management.
+This module contains all the core functionality. Provides functions
+for game logic, user interaction, and score management.
 
 Core Components:
 - Game mechanics (bulls and cows counting)
@@ -17,9 +18,6 @@ Constants:
     MAX_NUMBER (int): Maximum possible number
     DIVIDER (str): Visual separator for display
     HIGHSCORE_FILE (Path): Path to the high score file
-
-Author: Radek Jíša
-Email: radek.jisa@gmail.com
 """
 
 from pathlib import Path
@@ -34,15 +32,14 @@ DIVIDER = '-' * CENTER_WIDTH
 
 
 def introduction(divider: str) -> str:
-    """Generate the game's introduction message.
-    
-    Creates a formatted welcome screen with game title and instructions.
+    """
+    Creates a welcome screen with game title and instructions.
     
     Args:
         divider (str): String used to create visual separators
         
     Returns:
-        str: Formatted introduction message with centered text and dividers
+        str: Introduction message with centered text and dividers
     """
     return f'''
 {divider}\n
@@ -50,44 +47,48 @@ def introduction(divider: str) -> str:
 {'aka'.center(CENTER_WIDTH)}
 {'\'Mastermind\''.center(CENTER_WIDTH)}\n
 {divider}\n
-{f'I\'ve generated a random {NUMBER_LENGTH} digit number for you.'.center(CENTER_WIDTH)}
+{f'I\'ve generated a random {
+    NUMBER_LENGTH
+} digit number for you.'.center(CENTER_WIDTH)}
 {'Guess which one is it.'.center(CENTER_WIDTH)}\n
 {divider}'''
 
 
 def get_user_input() -> list[str]:
-    """Get and validate user's number guess.
-    
+    """
+    Get and validate user's number guess.
+
     Prompts the user for input and validates that:
     - Input contains only digits
     - Input is exactly NUMBER_LENGTH digits long
     - Input doesn't start with zero
-    
-    Continues prompting until valid input is received.
     
     Returns:
         list[str]: List of digits from the user's valid guess
     """
     while True:
         user_number = input(f'{'':>38}').strip()
-
         if not user_number.isdigit():
-            print(f'\n{'NOT a number! Enter the number:'.center(CENTER_WIDTH)}')
+            print(f'\n{'NOT number! Enter number:'.center(CENTER_WIDTH)}')
         elif len(user_number) != NUMBER_LENGTH:
-            print(f'\n{f'NOT {NUMBER_LENGTH} digits! Enter the number:'.center(CENTER_WIDTH)}')
+            print(
+                f'\n{f'NOT {NUMBER_LENGTH} digits! Enter number:'.center(
+                    CENTER_WIDTH)}'
+            )
         elif user_number.startswith('0'):
-            print(f'\n{'CANNOT start with zero! Enter the number:'.center(CENTER_WIDTH)}')
+            print(
+                f'\n{'CANNOT start with zero! Enter number:'.center(
+                    CENTER_WIDTH)}'
+            )
         else:
             break
     return list(user_number)
 
 
-def evaluate_guess(generated_number: list[str], user_number: list[str]) -> tuple[int, int]:
-    """Evaluate the user's guess against the generated number.
-    
-    Implements the Bulls and Cows game logic:
-    - Bulls: Correct digits in correct positions
-    - Cows: Correct digits in wrong positions
+def evaluate_guess(generated_number: list[str], user_number: list[str]
+) -> tuple[int, int]:
+    """
+    Evaluate the user's guess against the generated number.
     
     Uses a marking strategy to avoid counting digits multiple times:
     - Marked positions are replaced with empty strings
@@ -111,37 +112,41 @@ def evaluate_guess(generated_number: list[str], user_number: list[str]) -> tuple
             user_number[position] = ''
 
     for position in range(NUMBER_LENGTH):
-        if user_number[position] != '' and user_number[position] in generated_number_copy:
+        if (
+            user_number[position] != ''
+            and user_number[position] in generated_number_copy
+        ):
             cows +=1
-            generated_number_copy[generated_number_copy.index(user_number[position])] = ''
+            index = generated_number_copy.index(user_number[position])
+            generated_number_copy[index] = ''
     return bulls,  cows
 
 
 def get_plurals(bulls: int, cows: int) -> tuple[str, str]:
-    """Generate plural or singular forms of 'bull' and 'cow'.
+    """
+    Generate plural or singular forms of 'bull' and 'cow'.
     
     Args:
         bulls (int): Number of bulls found
         cows (int): Number of cows found
         
     Returns:
-        tuple[str, str]: Appropriate forms ('bull'/'bulls', 'cow'/'cows')
+        tuple[str, str]: ('bull'/'bulls', 'cow'/'cows')
     """
     bulls_word = 'bull ' if bulls == 1 else 'bulls'
     cows_word = 'cow ' if cows == 1 else 'cows'
     return bulls_word, cows_word
 
 
-def calculate_time(start_time: float, end_time: float) -> tuple[int, int, int]:
-    """Calculate elapsed time of the game.
-    
-    Converts total seconds into minutes and seconds for display,
-    while also returning the total time for highscore tracking.
-    
+def calculate_time(start_time: float, end_time: float
+) -> tuple[int, int, int]:
+    """
+    Calculate elapsed time of the game.
+
     Args:
         start_time (float): Game start timestamp
         end_time (float): Game end timestamp
-        
+
     Returns:
         tuple[int, int, int]: (minutes, seconds, total_seconds)
     """
@@ -152,10 +157,9 @@ def calculate_time(start_time: float, end_time: float) -> tuple[int, int, int]:
 
 
 def highscore(score: int) -> list[int]:
-    """Update and return the list of top scores.
-    
-    Maintains a file with the top 10 fastest completion times.
-    Creates the highscore file and parent directories if they don't exist.
+    """
+    Update and return the list of top scores. Maintains a file
+    with the top 10 fastest completion times.
     
     Args:
         score (int): The time taken to complete the current game
@@ -188,30 +192,34 @@ def highscore(score: int) -> list[int]:
 
 
 def ask_to_continue() -> bool:
-    """Prompt the user to play another round.
+    """
+    Prompt the user to play another round.
     
-    Continuously prompts until a valid 'y' or 'n' response is received.
+    Continuously prompts until a valid 'y' or 'n' response received.
     Input is case-insensitive and whitespace is stripped.
     
     Returns:
         bool: True if player wants to continue, False otherwise
     """
     while True:
-        answer = input(f'\n{'Play again? (y/n):'.center(CENTER_WIDTH)}\n{' ':>38}').strip().lower()
+        answer = input(
+            f'\n{'Play again? (y/n):'.center(CENTER_WIDTH)}'
+        ).strip().lower()
         if answer in ('y', 'n'):
             return answer == 'y'
         print(f'\n{'Please enter y or n:'.center(CENTER_WIDTH)}')
 
 
-def end_credits(divider: str, mins: int, secs: int, high_scores: list[int], attempts: int) -> str:
-    """Generate the end game display with statistics and high scores.
-    
-    Creates a formatted display showing:
-    - Congratulations message
-    - Time taken (in minutes and seconds)
-    - Number of attempts
-    - List of top scores
-    
+def end_credits(
+        divider: str,
+        mins: int,
+        secs: int,
+        high_scores: list[int],
+        attempts: int
+) -> str:
+    """
+    Generate the end game display with statistics and high scores.
+
     Args:
         divider (str): String used for visual separation
         mins (int): Minutes taken to complete the game
@@ -224,7 +232,8 @@ def end_credits(divider: str, mins: int, secs: int, high_scores: list[int], atte
     """
     minutes_label = '' if mins == 0 else f'{mins} min and '
     highscore_lines = [
-        f'{i+1}. {str(score).rjust(5)} sec' for i, score in enumerate(high_scores)
+        f'{i+1}. {str(score).rjust(5)} sec'
+        for i, score in enumerate(high_scores)
     ]
     highscore_text = '\n'.join(line.center(CENTER_WIDTH)
         for line in highscore_lines)

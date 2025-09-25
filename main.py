@@ -1,20 +1,10 @@
-"""Bulls and Cows Game - Main Module
+"""
+Bulls and Cows Game - Main Module
 
 A number guessing game also known as Mastermind with numbers.
 Players try to guess a randomly generated number, receiving feedback
 in the form of 'bulls' (correct digit, correct position) and
 'cows' (correct digit, wrong position).
-
-Features:
-- Random number generation
-- Input validation
-- Time tracking
-- High score system
-- Multiple round support
-- Python version checking
-
-Author: Radek Jíša
-Email: radek.jisa@gmail.com
 """
 
 import random
@@ -47,7 +37,8 @@ def check_python_version(required=(3, 10)):
 
 
 def play_game() -> None:
-    """Main game loop for Bulls and Cows.
+    """
+    Main game loop for Bulls and Cows.
     
     Manages the game flow including:
     - Displaying introduction and game interface
@@ -76,8 +67,12 @@ def play_game() -> None:
             bulls, cows = evaluate_guess(generated_number, user_number)
             bulls_word, cows_word = get_plurals(bulls, cows)
 
-            print(f'{bulls_word.capitalize()} {bulls:^34} {cows:^35} {cows_word.capitalize()}')
-            attempts += 1            
+            print(
+                f'{bulls_word.capitalize()} '
+                f'{bulls:^34} {cows:^35} '
+                f'{cows_word.capitalize()}'
+            )
+            attempts += 1
             if bulls == NUMBER_LENGTH:
                 end_time = time.time()
                 break
